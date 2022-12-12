@@ -2,13 +2,27 @@ class DictionaryFileManager():
     def __init__(self, filename:str) -> None:
         self.filename = filename
     
-    def write_dictionary_to_file(self):
-        pass
+    def write_dictionary_to_file(self, passed_in_dictionary:dict) -> None:
+        with open('dictionary.txt', 'w') as f:
+            for i in passed_in_dictionary:
+                f.write(f"{i}, {passed_in_dictionary[i]}")
+
+    def read_dictionary_from_file(self) -> dict:
+        dictionary_from_file = {}
+        try:
+            with open('dictionary.txt', 'r') as f:
+                for line in f:
+                    name_number_list_from_file = line.split(',')
+                    dictionary_from_file[name_number_list_from_file[0]] = name_number_list_from_file[1]
+        except FileNotFoundError:
+            return {}
+        return dictionary_from_file
 
 
 
 def main():
-    building_numbers = {}
+    manager = DictionaryFileManager('dictionary.txt')
+    building_numbers = manager.read_dictionary_from_file()
     entered_name = ""
     entered_name = input("Enter new name: ").capitalize()
     if entered_name != "":
